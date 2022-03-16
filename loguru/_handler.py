@@ -83,7 +83,11 @@ class Handler:
                 self._decolorized_format = self._formatter.strip()
 
         if self._enqueue:
-            self._queue = multiprocessing.SimpleQueue()
+            if self._enqueue is True:
+                self._queue = multiprocessing.SimpleQueue()
+            else:
+                # assume it's an alternative Queue
+                self._queue = self._enqueue
             self._confirmation_event = multiprocessing.Event()
             self._confirmation_lock = multiprocessing.Lock()
             self._owner_process_pid = os.getpid()
